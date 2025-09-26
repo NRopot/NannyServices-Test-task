@@ -16,7 +16,20 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+
+    "strictNullChecks": false,
+    "noUncheckedIndexedAccess": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "importsNotUsedAsValues": "remove",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "newLine": "lf",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

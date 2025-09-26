@@ -1,0 +1,9 @@
+<div class="header-menu" *ngIf="{ activePage: activePage$ | async } as params">
+  <a
+    *ngFor="let route of routes"
+    [matButton]="params.activePage === route.route ? 'filled' : 'tonal'"
+    [routerLink]="route.route"
+  >
+    {{ route.label }}
+  </a>
+</div>

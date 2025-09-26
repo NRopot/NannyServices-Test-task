@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  width: 100%;
+  --mat-button-tonal-container-color: transparent;
+}
+
+.header-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  height: 4rem;
+  background-color: var(--mat-sys-primary-container);
+  padding: 0 2rem;
+}
