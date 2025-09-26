@@ -2,6 +2,10 @@
   display: block;
 }
 
+$header_height: 4rem;
+$wrapper_margin: 2rem;
+
 .wrapper {
-  margin: 0 2rem;
+  min-height: calc(100vh - $header_height - ($wrapper_margin * 2));
+  margin: $wrapper_margin;
 }

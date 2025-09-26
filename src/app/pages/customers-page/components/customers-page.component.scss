@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+$header_height: 4rem;
+$wrapper_margin: 2rem;
+
+$paginator_margin: $wrapper_margin;
+$paginator_height: 3.5rem;
+
+.create-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.mat-column-firstName,
+.mat-column-lastName {
+  width: 7rem;
+}
+
+.mat-column-address {
+  width: 15rem;
+}
+
+.mat-column-actions {
+  width: 10rem;
+}
+
+.mat-mdc-cell.mat-column-photo {
+  display: flex;
+  align-items: center;
+}
+
+.actions-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+  height: 6.5rem;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+.table-paginator {
+  position: fixed;
+  bottom: $paginator_margin;
+  left: $paginator_margin;
+  right: $paginator_margin;
+  z-index: 1;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-offset {
+  height: $paginator_margin + $paginator_height + $paginator_margin;
+}
