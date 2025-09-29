@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16rem;
+  font-weight: 900;
+  color: var(--mat-button-tonal-label-text-color, var(--mat-sys-on-secondary-container));
+  font-family: 'Arial', sans-serif;
+}
