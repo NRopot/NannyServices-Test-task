@@ -1,9 +1,4 @@
-<div class="create-button-container">
-  <button matButton="filled">
-    <mat-icon fontIcon="add">add</mat-icon>
-    Create
-  </button>
-</div>
+<app-button class="create-button-container" iconName="add">Create</app-button>
 
 <table mat-table [dataSource]="dataSource$ | async" class="mat-elevation-z8">
   <ng-container matColumnDef="firstName">

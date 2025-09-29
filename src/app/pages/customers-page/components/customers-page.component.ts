@@ -7,6 +7,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomersRequestsService } from '@app/pages/customers-page/services/requests/customers-requests.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '@app/components/button/button.component';
 
 @Component({
   selector: 'app-customers-page',
@@ -16,7 +17,15 @@ import { CommonModule } from '@angular/common';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CustomersRequestsService],
-  imports: [CommonModule, MatTableModule, MatIconModule, MatMiniFabButton, MatPaginatorModule, MatButton],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatMiniFabButton,
+    MatPaginatorModule,
+    MatButton,
+    ButtonComponent,
+  ],
 })
 export class CustomersPageComponent {
   public readonly displayedColumns: string[] = ['firstName', 'lastName', 'address', 'photo', 'actions'];
