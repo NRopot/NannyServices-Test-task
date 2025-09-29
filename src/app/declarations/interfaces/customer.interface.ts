@@ -1,6 +1,6 @@
 export interface Customer {
-  firstName: string;
-  lastName: string;
-  address: string;
-  photoUrl: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly address: string;
+  readonly photoUrl: string;
 }

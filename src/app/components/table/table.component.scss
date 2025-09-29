@@ -8,17 +8,14 @@ $wrapper_margin: 2rem;
 $paginator_margin: $wrapper_margin;
 $paginator_height: 3.5rem;
 
-.create-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 1rem;
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
 }
 
-.mat-mdc-cell.mat-column-photo {
-  display: flex;
-  align-items: center;
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
 }
 
 .actions-wrapper {
@@ -29,15 +26,8 @@ $paginator_height: 3.5rem;
   gap: 1rem;
 }
 
-.mat-mdc-row .mat-mdc-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
-  cursor: pointer;
-  height: 6.5rem;
-}
-
-.mat-mdc-row:hover .mat-mdc-cell {
-  border-color: currentColor;
+.mat-column-actions {
+  width: 10rem;
 }
 
 .table-paginator {

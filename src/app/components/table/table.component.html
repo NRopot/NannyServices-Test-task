@@ -1,0 +1,42 @@
+<table mat-table [dataSource]="tableConfig.dataSource" class="mat-elevation-z8">
+  <ng-container *ngFor="let column of tableConfig.columns; trackBy: trackByFunction" [matColumnDef]="column.id">
+    <th mat-header-cell *matHeaderCellDef [style.width]="column.width">{{ column.label }}</th>
+    <td mat-cell *matCellDef="let element" [style.width]="column.width">
+      <ng-container [ngSwitch]="column.type">
+        <ng-container *ngSwitchCase="columnTypes.Default">
+          {{ element[column.id] }}
+        </ng-container>
+        <ng-container *ngSwitchCase="columnTypes.Photo">
+          <img [src]="element[column.id]" width="100" alt="avatar" />
+        </ng-container>
+        <ng-container *ngSwitchCase="columnTypes.Price">
+          {{ element[column.id] | currency: '$' }}
+        </ng-container>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions" *ngIf="actionsTemplate">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+      <div class="actions-wrapper">
+        <ng-container [ngTemplateOutlet]="actionsTemplate"></ng-container>
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container *ngIf="displayedColumns$ | async as displayedColumns">
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </ng-container>
+</table>
+
+<div class="footer-offset"></div>
+
+<mat-paginator
+  class="table-paginator"
+  [length]="100"
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page"
+></mat-paginator>
