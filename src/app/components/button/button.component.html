@@ -1,5 +1,5 @@
 <div>
-  <button matButton="filled">
+  <button matButton="filled" [disabled]="disabled">
     <mat-icon *ngIf="iconName" [fontIcon]="iconName"></mat-icon>
     <ng-content></ng-content>
   </button>

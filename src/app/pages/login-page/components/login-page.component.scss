@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+$page_height: 20rem;
+$page_width: 30rem;
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: $page_width;
+  height: $page_height;
+  position: absolute;
+  top: calc(50% - ($page_height / 2));
+  left: calc(50% - ($page_width / 2));
+
+  &__title {
+    font-size: 5rem;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    flex: 1;
+  }
+}

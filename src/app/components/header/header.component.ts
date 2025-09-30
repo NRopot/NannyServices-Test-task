@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
-import { NavigationService } from '../../services/navigation.service';
+import { NavigationService } from '@app/services/navigation.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { CurrentUserStore } from '@app/stores/current-user.store';
+import { AuthService } from '@app/services/auth.service';
 
 interface Route {
   route: string;
@@ -18,9 +21,13 @@ interface Route {
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NavigationService],
-  imports: [RouterLink, MatButton, CommonModule],
+  imports: [RouterLink, MatButton, CommonModule, MatIcon],
 })
 export class HeaderComponent {
+  private readonly currentUserStore = inject(CurrentUserStore);
+
+  public readonly isAuthorized: Signal<boolean> = this.currentUserStore.isAuthorized;
+
   public readonly routes: Route[] = [
     {
       route: 'customers',
@@ -38,5 +45,12 @@ export class HeaderComponent {
 
   public readonly activePage$: Observable<string> = this.navigationService.activePage$;
 
-  constructor(private readonly navigationService: NavigationService) {}
+  constructor(
+    private readonly navigationService: NavigationService,
+    private readonly authService: AuthService
+  ) {}
+
+  public logout(): void {
+    this.authService.logout();
+  }
 }

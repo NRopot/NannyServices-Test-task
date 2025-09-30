@@ -1,0 +1,31 @@
+<div class="login-page" (keydown.enter)="signIn()">
+  <span class="login-page__title">Sign In</span>
+  <form class="login-page__form">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input type="username" matInput [formControl]="controls.username" placeholder="Username" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.username.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.username.hasError('required')">
+        Username is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input type="password" matInput [formControl]="controls.password" placeholder="Password" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.password.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.password.hasError('minlength')">Please enter minimum 4 symbols</mat-error>
+      <mat-error *ngIf="controls.password.hasError('required')">
+        Password is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <app-button iconName="login" (click)="signIn()" [disabled]="formGroup.invalid">Sign in</app-button>
+</div>

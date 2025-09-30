@@ -14,4 +14,5 @@ import { NgIf } from '@angular/common';
 })
 export class ButtonComponent {
   @Input() public iconName: string | null = null;
+  @Input() public disabled: boolean = false;
 }

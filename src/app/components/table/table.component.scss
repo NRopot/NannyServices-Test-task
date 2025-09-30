@@ -31,6 +31,8 @@ $paginator_height: 3.5rem;
 }
 
 .table-paginator {
+  width: 30rem;
+  margin: 0 auto;
   position: fixed;
   bottom: $paginator_margin;
   left: $paginator_margin;

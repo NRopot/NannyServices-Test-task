@@ -23,6 +23,10 @@ export const routes: Routes = [
       import('./pages/orders-page/components/orders-page.component').then((c) => c.OrdersPageComponent),
   },
   {
+    path: 'sign-in',
+    loadComponent: () => import('./pages/login-page/components/login-page.component').then((c) => c.LoginPageComponent),
+  },
+  {
     path: '**',
     component: NotFoundPageComponent,
   },

@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^20.3.2",
     "@angular/platform-browser-dynamic": "^20.3.2",
     "@angular/router": "^20.3.2",
+    "@ngrx/operators": "^20.0.1",
+    "@ngrx/signals": "^20.0.1",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

@@ -1,9 +1,16 @@
 <div class="header-menu" *ngIf="{ activePage: activePage$ | async } as params">
-  <a
-    *ngFor="let route of routes"
-    [matButton]="params.activePage === route.route ? 'filled' : 'tonal'"
-    [routerLink]="route.route"
-  >
-    {{ route.label }}
-  </a>
+  <div *ngIf="isAuthorized()" class="header-menu__item">
+    <a
+      *ngFor="let route of routes"
+      [matButton]="params.activePage === route.route ? 'filled' : 'tonal'"
+      [routerLink]="route.route"
+    >
+      {{ route.label }}
+    </a>
+  </div>
+
+  <button matButton *ngIf="isAuthorized()" (click)="logout()">
+    <mat-icon aria-hidden="false" fontIcon="logout"></mat-icon>
+    Sign Out
+  </button>
 </div>
