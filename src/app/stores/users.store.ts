@@ -5,6 +5,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { of, pipe, switchMap, tap } from 'rxjs';
 import { UsersRequestsService } from '@app/services/requests/users-requests.service';
+import { withLocalStorage } from '@app/store-features/with-local-storage.feature';
 
 type UsersState = {
   users: User[];
@@ -15,6 +16,7 @@ const initialState: UsersState = {
   users: [],
   isLoading: false,
 };
+const LOCAL_STORAGE_KEY: string = 'USERS_STATE';
 
 export const UsersStore = signalStore(
   { providedIn: 'root' },
@@ -24,6 +26,8 @@ export const UsersStore = signalStore(
   withComputed((store) => ({
     usersCount: computed(() => store.users().length),
   })),
+
+  withLocalStorage<UsersState>(LOCAL_STORAGE_KEY),
 
   withMethods(({ users, ...store }, usersRequestsService: UsersRequestsService = inject(UsersRequestsService)) => ({
     updateUser(updatedUser: User): void {
