@@ -1,13 +1,20 @@
-import { Injectable, Signal } from '@angular/core';
+import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { NavigationService } from '@app/services/navigation.service';
 import { Params } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { isNil } from '@app/functions/is-nil.function';
+import { take } from 'rxjs';
 
 @Injectable()
 export class PaginationServiceService {
-  public readonly queryParams: Signal<Params> = toSignal<Params>(this.navigationService.queryParams$);
+  private readonly queryParams: Signal<Params> = toSignal(this.navigationService.queryParams$);
 
-  constructor(private readonly navigationService: NavigationService) {}
+  public readonly pageSize: WritableSignal<number> = signal<number>(5);
+  public readonly pageIndex: WritableSignal<number> = signal<number>(0);
+
+  constructor(private readonly navigationService: NavigationService) {
+    this.initPagination();
+  }
 
   public getItemsWithPagination<T>(array: T[]): T[] {
     const queryParams: Params = this.queryParams();
@@ -18,5 +25,20 @@ export class PaginationServiceService {
     const startIndex: number = endIndex - pageSize;
 
     return array.slice(startIndex, endIndex);
+  }
+
+  private initPagination(): void {
+    this.navigationService.queryParams$.pipe(take(1)).subscribe(({ pageSize, pageIndex }: Params) => {
+      if (isNil(pageSize) || isNil(pageIndex)) {
+        this.navigationService.setQueryParams({
+          pageSize: this.pageSize(),
+          pageIndex: this.pageIndex(),
+        });
+        return;
+      }
+
+      this.pageSize.set(pageSize);
+      this.pageIndex.set(pageIndex);
+    });
   }
 }

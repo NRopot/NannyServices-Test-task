@@ -3,8 +3,7 @@ import {
   Component,
   Input,
   OnInit,
-  WritableSignal,
-  signal,
+  Signal,
   TemplateRef,
   TrackByFunction,
   ViewEncapsulation,
@@ -14,12 +13,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TableConfig } from '@app/declarations/interfaces/table-config.interface';
-import { Observable, ReplaySubject, take } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { Column } from '@app/declarations/interfaces/column.interface';
 import { ColumnTypes } from '@app/declarations/enums/column-types.enum';
 import { isNil } from '@app/functions/is-nil.function';
 import { NavigationService } from '@app/services/navigation.service';
-import { Params } from '@angular/router';
+import { PaginationServiceService } from '@app/services/pagination.service';
 
 @Component({
   selector: 'app-table',
@@ -39,14 +38,16 @@ export class TableComponent<T extends object = object> implements OnInit {
 
   public readonly columnTypes: typeof ColumnTypes = ColumnTypes;
 
-  public readonly pageSize: WritableSignal<number> = signal<number>(5);
-  public readonly pageIndex: WritableSignal<number> = signal<number>(0);
+  public readonly initPageSize: Signal<number> = this.paginationServiceService.pageSize;
+  public readonly initPageIndex: Signal<number> = this.paginationServiceService.pageIndex;
 
-  constructor(private readonly navigationService: NavigationService) {}
+  constructor(
+    private readonly navigationService: NavigationService,
+    private readonly paginationServiceService: PaginationServiceService
+  ) {}
 
   public ngOnInit(): void {
     this.initDisplayColumns();
-    this.initPagination();
   }
 
   public readonly trackByFunction: TrackByFunction<Column<T>> = (_: number, item: Column<T>) => item.id;
@@ -66,16 +67,5 @@ export class TableComponent<T extends object = object> implements OnInit {
     }
 
     this.displayedColumnsState$.next(displayedColumns);
-  }
-
-  private initPagination(): void {
-    this.navigationService.queryParams$.pipe(take(1)).subscribe(({ pageSize, pageIndex }: Params) => {
-      if (isNil(pageSize) || isNil(pageIndex)) {
-        this.navigationService.setQueryParams({
-          pageSize: this.pageSize(),
-          pageIndex: this.pageIndex(),
-        });
-      }
-    });
   }
 }

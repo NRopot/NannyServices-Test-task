@@ -1,6 +1,6 @@
 <app-button class="create-button-container" iconName="add">Create</app-button>
 
-<app-table [tableConfig]="tableConfig$ | async" [actionsTemplate]="actionsTemplate"></app-table>
+<app-table [tableConfig]="tableConfig()" [actionsTemplate]="actionsTemplate"></app-table>
 
 <ng-template #actionsTemplate>
   <button matMiniFab aria-label="Edit customer">

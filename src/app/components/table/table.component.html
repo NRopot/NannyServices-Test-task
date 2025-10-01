@@ -40,8 +40,8 @@
   class="table-paginator"
   (page)="handlePageEvent($event)"
   [length]="tableConfig.totalCount"
-  [pageSize]="pageSize()"
-  [pageIndex]="pageIndex()"
+  [pageSize]="initPageSize()"
+  [pageIndex]="initPageIndex()"
   [pageSizeOptions]="[5, 10, 25, 100]"
   aria-label="Select page"
 ></mat-paginator>
