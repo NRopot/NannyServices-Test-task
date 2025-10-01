@@ -6,5 +6,7 @@ export interface User {
   readonly password: string;
   readonly firstName: string;
   readonly lastName?: string;
+  readonly address?: string;
+  readonly photoUrl?: string;
   readonly role: UserRoles;
 }

@@ -1,0 +1,73 @@
+<div class="creation-dialog" (keydown.enter)="closeDialog(formGroup.getRawValue())">
+  <h3 class="creation-dialog__title">Create customer</h3>
+  <form class="creation-dialog__form">
+    <mat-form-field>
+      <mat-label>First name</mat-label>
+      <input type="text" matInput [formControl]="controls.firstName" placeholder="First name" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.firstName.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.firstName.hasError('required')">
+        First name is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Last name</mat-label>
+      <input type="text" matInput [formControl]="controls.lastName" placeholder="Last name" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.lastName.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Address</mat-label>
+      <input type="text" matInput [formControl]="controls.address" placeholder="Address" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.address.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.address.hasError('required')">
+        Address is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Photo URL</mat-label>
+      <input type="text" matInput [formControl]="controls.photoUrl" placeholder="Photo URL" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.photoUrl.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input type="text" matInput [formControl]="controls.username" placeholder="Username" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.username.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.username.hasError('required')">
+        Username is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input type="text" matInput [formControl]="controls.password" placeholder="Password" />
+      <button matSuffix matIconButton aria-label="Clear" (click)="controls.password.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.password.hasError('minlength')">Please enter minimum 4 symbols</mat-error>
+      <mat-error *ngIf="controls.password.hasError('required')">
+        Password is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="creation-dialog__footer">
+  <button matButton="filled" (click)="closeDialog(formGroup.getRawValue())" [disabled]="isReadonly">OK</button>
+  <button matButton="filled" (click)="closeDialog()">Cancel</button>
+</div>

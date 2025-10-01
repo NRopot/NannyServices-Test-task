@@ -6,6 +6,7 @@ import { tapResponse } from '@ngrx/operators';
 import { of, pipe, switchMap, tap } from 'rxjs';
 import { UsersRequestsService } from '@app/services/requests/users-requests.service';
 import { withLocalStorage } from '@app/store-features/with-local-storage.feature';
+import { UserRoles } from '@app/declarations/enums/user-roles.enum';
 
 type UsersState = {
   users: User[];
@@ -23,8 +24,8 @@ export const UsersStore = signalStore(
 
   withState<UsersState>(initialState),
 
-  withComputed((store) => ({
-    usersCount: computed(() => store.users().length),
+  withComputed(({ users }) => ({
+    customers: computed(() => users().filter((user: User) => user.role === UserRoles.Customer)),
   })),
 
   withLocalStorage<UsersState>(LOCAL_STORAGE_KEY),
@@ -60,8 +61,10 @@ export const UsersStore = signalStore(
   })),
 
   withHooks({
-    onInit({ loadUsers }) {
-      loadUsers(of([]));
+    onInit({ loadUsers, users }) {
+      if (users().length === 0) {
+        loadUsers(of([]));
+      }
     },
   })
 );

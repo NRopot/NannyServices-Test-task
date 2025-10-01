@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: 'customers',
     loadComponent: () =>
-      import('./pages/customers-page/components/customers-page.component').then((c) => c.CustomersPageComponent),
+      import('./pages/customers-page/customers-page.component').then((c) => c.CustomersPageComponent),
     canActivate: [isAuthorizedGuard],
   },
   {

@@ -2,9 +2,38 @@
   {
     "id": "d6448195-f6b1-4754-88f6-47bc72b649cf",
     "firstName": "admin",
-    "lastname": "admin",
     "username": "admin",
     "password": "admin",
     "role": "Admin"
+  },
+  {
+    "id": "b58ffff9-95cc-4a30-9af3-61f69af20eb5",
+    "firstName": "Mikalai",
+    "lastName": "Ropat",
+    "username": "MicoLa",
+    "password": "1234",
+    "address": "221B Baker Street, Apt 3, New York, NY 10001, USA",
+    "photoUrl": "https://images.unsplash.com/photo-1654110455429-cf322b40a906?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D",
+    "role": "Customer"
+  },
+  {
+    "id": "0efab381-6f75-4eee-b9ea-eb5959800603",
+    "firstName": "Mikalai",
+    "lastName": "Ropat",
+    "username": "mikalai",
+    "password": "0000",
+    "address": "221B Baker Street, Apt 3, New York, NY 10001, USA",
+    "photoUrl": "https://images.unsplash.com/photo-1654110455429-cf322b40a906?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D",
+    "role": "Customer"
+  },
+  {
+    "id": "ed6900cb-a8fb-4f43-a4c2-7b979e5cbea1",
+    "firstName": "Mikalai",
+    "lastName": "Ropat",
+    "username": "Mikalai",
+    "password": "1111",
+    "address": "221B Baker Street, Apt 3, New York, NY 10001, USA",
+    "photoUrl": "https://images.unsplash.com/photo-1654110455429-cf322b40a906?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D",
+    "role": "Customer"
   }
 ]
