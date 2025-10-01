@@ -10,6 +10,7 @@ import { TableComponent } from '@app/components/table/table.component';
 import { TableConfig } from '@app/declarations/interfaces/table-config.interface';
 import { Column } from '@app/declarations/interfaces/column.interface';
 import { ColumnTypes } from '@app/declarations/enums/column-types.enum';
+import { PaginationServiceService } from '@app/services/pagination.service';
 
 const DISPLAYED_COLUMNS: Column<OrderLine>[] = [
   {
@@ -38,7 +39,7 @@ const DISPLAYED_COLUMNS: Column<OrderLine>[] = [
   standalone: true,
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [OrderLinesRequestsService],
+  providers: [OrderLinesRequestsService, PaginationServiceService],
   imports: [CommonModule, MatTableModule, MatIconModule, MatPaginatorModule, TableComponent],
 })
 export class OrdersPageComponent {

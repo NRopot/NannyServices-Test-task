@@ -4,7 +4,7 @@
     <mat-form-field>
       <mat-label>First name</mat-label>
       <input type="text" matInput [formControl]="controls.firstName" placeholder="First name" />
-      <button matSuffix matIconButton aria-label="Clear" (click)="controls.firstName.reset()">
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.firstName.reset()">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="controls.firstName.hasError('required')">
@@ -16,7 +16,7 @@
     <mat-form-field>
       <mat-label>Last name</mat-label>
       <input type="text" matInput [formControl]="controls.lastName" placeholder="Last name" />
-      <button matSuffix matIconButton aria-label="Clear" (click)="controls.lastName.reset()">
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.lastName.reset()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -24,7 +24,7 @@
     <mat-form-field>
       <mat-label>Address</mat-label>
       <input type="text" matInput [formControl]="controls.address" placeholder="Address" />
-      <button matSuffix matIconButton aria-label="Clear" (click)="controls.address.reset()">
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.address.reset()">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="controls.address.hasError('required')">
@@ -36,7 +36,7 @@
     <mat-form-field>
       <mat-label>Photo URL</mat-label>
       <input type="text" matInput [formControl]="controls.photoUrl" placeholder="Photo URL" />
-      <button matSuffix matIconButton aria-label="Clear" (click)="controls.photoUrl.reset()">
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.photoUrl.reset()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -44,7 +44,7 @@
     <mat-form-field>
       <mat-label>Username</mat-label>
       <input type="text" matInput [formControl]="controls.username" placeholder="Username" />
-      <button matSuffix matIconButton aria-label="Clear" (click)="controls.username.reset()">
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.username.reset()">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="controls.username.hasError('required')">
@@ -56,7 +56,7 @@
     <mat-form-field>
       <mat-label>Password</mat-label>
       <input type="text" matInput [formControl]="controls.password" placeholder="Password" />
-      <button matSuffix matIconButton aria-label="Clear" (click)="controls.password.reset()">
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.password.reset()">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="controls.password.hasError('minlength')">Please enter minimum 4 symbols</mat-error>

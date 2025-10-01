@@ -14,7 +14,7 @@ import { User } from '@app/declarations/interfaces/user.interface';
 import { Dialog, DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CustomerCreationDialogComponent } from '@app/pages/customers-page/components/customer-creation-dialog/customer-creation-dialog.component';
 import { isNil } from '@app/functions/is-nil.function';
-import { CreationDialogData } from '@app/pages/customers-page/declarations/interfaces/creation-dialog-data.interface';
+import { CreationCustomerDialogData } from '@app/pages/customers-page/declarations/interfaces/creation-customer-dialog-data.interface';
 import { PaginationServiceService } from '@app/services/pagination.service';
 
 const DISPLAYED_COLUMNS: Column<User>[] = [
@@ -74,8 +74,8 @@ export class CustomersPageComponent {
 
   constructor(private readonly paginationServiceService: PaginationServiceService) {}
 
-  openDialog(id?: string, isReadonly: boolean = false): void {
-    const data: CreationDialogData = {
+  public openDialog(id?: string, isReadonly: boolean = false): void {
+    const data: CreationCustomerDialogData = {
       user: isNil(id) ? null : (this.usersStore.customers().find((customer: User) => customer.id === id) ?? null),
       isReadonly,
     };

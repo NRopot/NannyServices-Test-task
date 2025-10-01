@@ -17,8 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'products',
-    loadComponent: () =>
-      import('./pages/products-page/components/products-page.component').then((c) => c.ProductsPageComponent),
+    loadComponent: () => import('./pages/products-page/products-page.component').then((c) => c.ProductsPageComponent),
     canActivate: [isAuthorizedGuard],
   },
   {

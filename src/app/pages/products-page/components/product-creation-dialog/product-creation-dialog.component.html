@@ -1,0 +1,32 @@
+<div class="creation-dialog" (keydown.enter)="closeDialog(formGroup.getRawValue())">
+  <h3 class="creation-dialog__title">{{ title }}</h3>
+  <form class="creation-dialog__form">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input type="text" matInput [formControl]="controls.name" placeholder="Name" />
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.name.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.name.hasError('required')">
+        Name is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input type="text" matInput [formControl]="controls.price" placeholder="Price" />
+      <button matSuffix matIconButton aria-label="Clear" *ngIf="!isReadonly" (click)="controls.price.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="controls.price.hasError('required')">
+        Price is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="creation-dialog__footer">
+  <button matButton="filled" (click)="closeDialog(formGroup.getRawValue())" [disabled]="isReadonly">OK</button>
+  <button matButton="filled" (click)="closeDialog()">Cancel</button>
+</div>

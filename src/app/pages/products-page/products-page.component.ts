@@ -11,6 +11,10 @@ import { Column } from '@app/declarations/interfaces/column.interface';
 import { ColumnTypes } from '@app/declarations/enums/column-types.enum';
 import { ProductsStore } from '@app/stores/products.store';
 import { PaginationServiceService } from '@app/services/pagination.service';
+import { isNil } from '@app/functions/is-nil.function';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
+import { CreationProductDialogData } from '@app/pages/products-page/declarations/interfaces/creation-product-dialog-data.interface';
+import { ProductCreationDialogComponent } from '@app/pages/products-page/components/product-creation-dialog/product-creation-dialog.component';
 
 const DISPLAYED_COLUMNS: Column<Product>[] = [
   {
@@ -44,6 +48,7 @@ const DISPLAYED_COLUMNS: Column<Product>[] = [
 })
 export class ProductsPageComponent {
   private readonly productsStore = inject(ProductsStore);
+  private readonly dialog: Dialog = inject(Dialog);
 
   public readonly tableConfig: Signal<TableConfig<Product>> = computed(() => ({
     dataSource: this.paginationServiceService.getItemsWithPagination(this.productsStore.products()),
@@ -52,4 +57,28 @@ export class ProductsPageComponent {
   }));
 
   constructor(private readonly paginationServiceService: PaginationServiceService) {}
+
+  public openDialog(id?: string, isReadonly: boolean = false): void {
+    const data: CreationProductDialogData = {
+      product: isNil(id) ? null : (this.productsStore.products().find((product: Product) => product.id === id) ?? null),
+      isReadonly,
+    };
+    const dialogRef: DialogRef<Product | null> = this.dialog.open<Product | null>(ProductCreationDialogComponent, {
+      width: '30rem',
+      data,
+    });
+
+    dialogRef.closed.subscribe((product: Product | null) => {
+      if (isNil(product)) {
+        return;
+      }
+
+      if (isNil(id)) {
+        this.productsStore.addProduct(product);
+        return;
+      }
+
+      this.productsStore.updateProduct(product);
+    });
+  }
 }
