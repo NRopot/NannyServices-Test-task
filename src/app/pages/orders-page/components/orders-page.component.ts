@@ -46,6 +46,7 @@ export class OrdersPageComponent {
     map((dataSource: OrderLine[]) => ({
       dataSource,
       columns: DISPLAYED_COLUMNS,
+      totalCount: dataSource.length,
     }))
   );
 

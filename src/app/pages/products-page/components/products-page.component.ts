@@ -46,6 +46,7 @@ export class ProductsPageComponent {
     map((dataSource: Product[]) => ({
       dataSource,
       columns: DISPLAYED_COLUMNS,
+      totalCount: dataSource.length,
     }))
   );
 

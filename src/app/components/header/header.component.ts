@@ -20,7 +20,6 @@ interface Route {
   standalone: true,
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [NavigationService],
   imports: [RouterLink, MatButton, CommonModule, MatIcon],
 })
 export class HeaderComponent {

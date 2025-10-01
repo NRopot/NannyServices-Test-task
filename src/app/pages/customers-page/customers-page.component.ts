@@ -15,6 +15,7 @@ import { Dialog, DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CustomerCreationDialogComponent } from '@app/pages/customers-page/components/customer-creation-dialog/customer-creation-dialog.component';
 import { isNil } from '@app/functions/is-nil.function';
 import { CreationDialogData } from '@app/pages/customers-page/declarations/interfaces/creation-dialog-data.interface';
+import { PaginationServiceService } from '@app/services/pagination.service';
 
 const DISPLAYED_COLUMNS: Column<User>[] = [
   {
@@ -49,6 +50,7 @@ const DISPLAYED_COLUMNS: Column<User>[] = [
   standalone: true,
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [PaginationServiceService],
   imports: [
     CommonModule,
     MatTableModule,
@@ -65,9 +67,12 @@ export class CustomersPageComponent {
   private readonly dialog: Dialog = inject(Dialog);
 
   public readonly tableConfig: Signal<TableConfig<User>> = computed(() => ({
-    dataSource: this.usersStore.customers(),
+    dataSource: this.paginationServiceService.getItemsWithPagination(this.usersStore.customers()),
     columns: DISPLAYED_COLUMNS,
+    totalCount: this.usersStore.customers().length,
   }));
+
+  constructor(private readonly paginationServiceService: PaginationServiceService) {}
 
   openDialog(id?: string, isReadonly: boolean = false): void {
     const data: CreationDialogData = {

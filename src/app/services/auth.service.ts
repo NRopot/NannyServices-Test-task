@@ -3,7 +3,9 @@ import { UsersStore } from '@app/stores/users.store';
 import { CurrentUserStore } from '@app/stores/current-user.store';
 import { Router } from '@angular/router';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
   private readonly usersStore = inject(UsersStore);
   private readonly currentUserStore = inject(CurrentUserStore);

@@ -28,37 +28,43 @@ export const UsersStore = signalStore(
     customers: computed(() => users().filter((user: User) => user.role === UserRoles.Customer)),
   })),
 
+  withComputed(({ customers }) => ({
+    customersCount: computed(() => customers().length),
+  })),
+
   withLocalStorage<UsersState>(LOCAL_STORAGE_KEY),
 
-  withMethods(({ users, ...store }, usersRequestsService: UsersRequestsService = inject(UsersRequestsService)) => ({
-    updateUser(updatedUser: User): void {
-      patchState(store, (state: UsersState) => ({
-        users: state.users.map((stateUser: User) =>
-          stateUser.id === updatedUser.id ? { ...stateUser, ...updatedUser } : stateUser
-        ),
-      }));
-    },
-    addUser(newUser: User): void {
-      patchState(store, (state) => ({ users: [...state.users, newUser] }));
-    },
-    removeUser(id: string): void {
-      patchState(store, (state) => ({ users: state.users.filter((stateUser: User) => stateUser.id !== id) }));
-    },
-    checkCredentials(username: string, password: string): boolean {
-      return users().some((stateUser: User) => stateUser.username === username && stateUser.password === password);
-    },
-    loadUsers: rxMethod<User[]>(
-      pipe(
-        tap(() => patchState(store, { isLoading: true })),
-        switchMap(() => usersRequestsService.get()),
-        tapResponse({
-          next: (users: User[]) => patchState(store, { users }),
-          error: console.error,
-          finalize: () => patchState(store, { isLoading: false }),
-        })
-      )
-    ),
-  })),
+  withMethods(
+    ({ users, customers, ...store }, usersRequestsService: UsersRequestsService = inject(UsersRequestsService)) => ({
+      updateUser(updatedUser: User): void {
+        patchState(store, (state: UsersState) => ({
+          users: state.users.map((stateUser: User) =>
+            stateUser.id === updatedUser.id ? { ...stateUser, ...updatedUser } : stateUser
+          ),
+        }));
+      },
+      addUser(newUser: User): void {
+        patchState(store, (state) => ({ users: [...state.users, newUser] }));
+      },
+      removeUser(id: string): void {
+        patchState(store, (state) => ({ users: state.users.filter((stateUser: User) => stateUser.id !== id) }));
+      },
+      checkCredentials(username: string, password: string): boolean {
+        return users().some((stateUser: User) => stateUser.username === username && stateUser.password === password);
+      },
+      loadUsers: rxMethod<User[]>(
+        pipe(
+          tap(() => patchState(store, { isLoading: true })),
+          switchMap(() => usersRequestsService.get()),
+          tapResponse({
+            next: (users: User[]) => patchState(store, { users }),
+            error: console.error,
+            finalize: () => patchState(store, { isLoading: false }),
+          })
+        )
+      ),
+    })
+  ),
 
   withHooks({
     onInit({ loadUsers, users }) {
