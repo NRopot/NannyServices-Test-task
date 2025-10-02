@@ -49,8 +49,10 @@ export const UsersStore = signalStore(
       removeUser(id: string): void {
         patchState(store, (state) => ({ users: state.users.filter((stateUser: User) => stateUser.id !== id) }));
       },
-      checkCredentials(username: string, password: string): boolean {
-        return users().some((stateUser: User) => stateUser.username === username && stateUser.password === password);
+      getUserByCredentials(username: string, password: string): User | null {
+        return (
+          users().find((stateUser: User) => stateUser.username === username && stateUser.password === password) ?? null
+        );
       },
       loadUsers: rxMethod<User[]>(
         pipe(

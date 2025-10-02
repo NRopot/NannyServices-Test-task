@@ -19,6 +19,9 @@ import { ColumnTypes } from '@app/declarations/enums/column-types.enum';
 import { isNil } from '@app/functions/is-nil.function';
 import { NavigationService } from '@app/services/navigation.service';
 import { PaginationServiceService } from '@app/services/pagination.service';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { OrderStatuses } from '@app/declarations/enums/order-statuses.enum';
 
 @Component({
   selector: 'app-table',
@@ -27,7 +30,7 @@ import { PaginationServiceService } from '@app/services/pagination.service';
   standalone: true,
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule],
 })
 export class TableComponent<T extends object = object> implements OnInit {
   @Input({ required: true }) public tableConfig: TableConfig<T>;
@@ -37,6 +40,8 @@ export class TableComponent<T extends object = object> implements OnInit {
   public readonly displayedColumns$: Observable<Column<T>['id'][]> = this.displayedColumnsState$.asObservable();
 
   public readonly columnTypes: typeof ColumnTypes = ColumnTypes;
+
+  public readonly orderStatusList: OrderStatuses[] = Object.values(OrderStatuses);
 
   public readonly initPageSize: Signal<number> = this.paginationServiceService.pageSize;
   public readonly initPageIndex: Signal<number> = this.paginationServiceService.pageIndex;

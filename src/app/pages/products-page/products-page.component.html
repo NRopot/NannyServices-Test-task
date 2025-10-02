@@ -2,11 +2,11 @@
 
 <app-table [tableConfig]="tableConfig()" [actionsTemplate]="actionsTemplate"></app-table>
 
-<ng-template #actionsTemplate let-productId>
-  <button matMiniFab aria-label="Edit customer">
-    <mat-icon aria-hidden="false" fontIcon="edit" (click)="openDialog(productId)"></mat-icon>
+<ng-template #actionsTemplate let-product>
+  <button matMiniFab aria-label="Create order">
+    <mat-icon class="icon" aria-hidden="false" fontIcon="add" (click)="createOrder(product.id)"></mat-icon>
   </button>
-  <button matMiniFab aria-label="Open customer">
-    <mat-icon class="icon" aria-hidden="false" fontIcon="visibility" (click)="openDialog(productId, true)"></mat-icon>
+  <button matMiniFab aria-label="Edit product">
+    <mat-icon aria-hidden="false" fontIcon="edit" (click)="openDialog(product.id)"></mat-icon>
   </button>
 </ng-template>

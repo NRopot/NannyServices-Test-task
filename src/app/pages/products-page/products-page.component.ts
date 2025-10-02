@@ -15,6 +15,10 @@ import { isNil } from '@app/functions/is-nil.function';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { CreationProductDialogData } from '@app/pages/products-page/declarations/interfaces/creation-product-dialog-data.interface';
 import { ProductCreationDialogComponent } from '@app/pages/products-page/components/product-creation-dialog/product-creation-dialog.component';
+import { OrdersStore } from '@app/stores/orders.store';
+import { v4 } from 'uuid';
+import { OrderStatuses } from '@app/declarations/enums/order-statuses.enum';
+import { CurrentUserStore } from '@app/stores/current-user.store';
 
 const DISPLAYED_COLUMNS: Column<Product>[] = [
   {
@@ -48,6 +52,9 @@ const DISPLAYED_COLUMNS: Column<Product>[] = [
 })
 export class ProductsPageComponent {
   private readonly productsStore = inject(ProductsStore);
+  private readonly ordersStore = inject(OrdersStore);
+  private readonly currentUserStore = inject(CurrentUserStore);
+
   private readonly dialog: Dialog = inject(Dialog);
 
   public readonly tableConfig: Signal<TableConfig<Product>> = computed(() => ({
@@ -57,6 +64,26 @@ export class ProductsPageComponent {
   }));
 
   constructor(private readonly paginationServiceService: PaginationServiceService) {}
+
+  public createOrder(productId: string): void {
+    const createdDate: Date = new Date();
+    const product: Product | undefined = this.productsStore
+      .products()
+      .find((product: Product) => product.id === productId);
+
+    this.ordersStore.addOrder({
+      id: v4(),
+      userId: this.currentUserStore.userId(),
+      userName: this.currentUserStore.username(),
+      productId: product?.id ?? null,
+      productName: product?.name ?? '',
+      count: 1,
+      price: product?.price ?? 0,
+      createdDate,
+      modifiedDate: createdDate,
+      status: OrderStatuses.Created,
+    });
+  }
 
   public openDialog(id?: string, isReadonly: boolean = false): void {
     const data: CreationProductDialogData = {

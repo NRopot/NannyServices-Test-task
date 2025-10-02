@@ -12,6 +12,22 @@
         <ng-container *ngSwitchCase="columnTypes.Price">
           {{ element[column.id] | currency: '$' }}
         </ng-container>
+        <ng-container *ngSwitchCase="columnTypes.Date">
+          {{ element[column.id] | date: 'dd.MM.yyyy' }}
+        </ng-container>
+        <ng-container *ngSwitchCase="columnTypes.Status">
+          <mat-form-field>
+            <mat-select [value]="element[column.id]">
+              <mat-option
+                *ngFor="let value of orderStatusList"
+                [value]="value"
+                (click)="tableConfig.orderStatusChangedCallback?.(value, element.id)"
+              >
+                {{ value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
       </ng-container>
     </td>
   </ng-container>
@@ -22,7 +38,7 @@
       <div class="actions-wrapper">
         <ng-container
           [ngTemplateOutlet]="actionsTemplate"
-          [ngTemplateOutletContext]="{ $implicit: element.id }"
+          [ngTemplateOutletContext]="{ $implicit: element }"
         ></ng-container>
       </div>
     </td>
