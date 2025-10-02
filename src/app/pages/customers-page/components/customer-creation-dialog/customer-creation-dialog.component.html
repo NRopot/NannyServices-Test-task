@@ -68,6 +68,12 @@
   </form>
 </div>
 <div class="creation-dialog__footer">
-  <button matButton="filled" (click)="closeDialog(formGroup.getRawValue())" [disabled]="isReadonly">OK</button>
+  <button
+    matButton="filled"
+    (click)="closeDialog(formGroup.getRawValue())"
+    [disabled]="isReadonly || formGroup.invalid"
+  >
+    OK
+  </button>
   <button matButton="filled" (click)="closeDialog()">Cancel</button>
 </div>

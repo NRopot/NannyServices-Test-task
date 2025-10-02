@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Event, NavigationEnd, Params, QueryParamsHandling, Router } from '@angular/router';
-import { filter, map, Observable, shareReplay, switchMap } from 'rxjs';
+import { distinctUntilChanged, filter, map, Observable, shareReplay, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +25,7 @@ export class NavigationService {
 
   public readonly queryParams$: Observable<Params> = this.routerEvents$.pipe(
     switchMap(() => this.activatedRoute.queryParams),
+    distinctUntilChanged((prev, next) => JSON.stringify(prev) === JSON.stringify(next)),
     shareReplay({
       refCount: true,
       bufferSize: 1,

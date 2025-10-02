@@ -3,48 +3,55 @@ import { User } from '@app/declarations/interfaces/user.interface';
 import { computed, inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { of, pipe, switchMap, tap } from 'rxjs';
+import { filter, of, pipe, switchMap, tap } from 'rxjs';
 import { UsersRequestsService } from '@app/services/requests/users-requests.service';
-import { withLocalStorage } from '@app/store-features/with-local-storage.feature';
 import { UserRoles } from '@app/declarations/enums/user-roles.enum';
+import { NavigationService } from '@app/services/navigation.service';
+import { Params } from '@angular/router';
+import { isNil } from '@app/functions/is-nil.function';
+import { HttpResponse } from '@angular/common/http';
 
 type UsersState = {
   users: User[];
   isLoading: boolean;
+  customersCount: number;
 };
 
 const initialState: UsersState = {
   users: [],
   isLoading: false,
+  customersCount: 0,
 };
-const LOCAL_STORAGE_KEY: string = 'USERS_STATE';
+const PAGINATION_TOTAL_ITEMS_KEY = 'PAGINATION_TOTAL_ITEMS';
 
 export const UsersStore = signalStore(
   { providedIn: 'root' },
 
   withState<UsersState>(initialState),
 
-  withComputed(({ users }) => ({
+  withComputed(({ users, customersCount }) => ({
     customers: computed(() => users().filter((user: User) => user.role === UserRoles.Customer)),
+    customersCount: computed(() => customersCount()),
   })),
-
-  withComputed(({ customers }) => ({
-    customersCount: computed(() => customers().length),
-  })),
-
-  withLocalStorage<UsersState>(LOCAL_STORAGE_KEY),
 
   withMethods(
-    ({ users, customers, ...store }, usersRequestsService: UsersRequestsService = inject(UsersRequestsService)) => ({
+    (
+      { users, customers, customersCount, ...store },
+      usersRequestsService: UsersRequestsService = inject(UsersRequestsService),
+      navigationService: NavigationService = inject(NavigationService)
+    ) => ({
       updateUser(updatedUser: User): void {
         patchState(store, (state: UsersState) => ({
           users: state.users.map((stateUser: User) =>
             stateUser.id === updatedUser.id ? { ...stateUser, ...updatedUser } : stateUser
           ),
         }));
+
+        usersRequestsService.putUser(updatedUser).subscribe();
       },
       addUser(newUser: User): void {
         patchState(store, (state) => ({ users: [...state.users, newUser] }));
+        usersRequestsService.postUser(newUser).subscribe();
       },
       removeUser(id: string): void {
         patchState(store, (state) => ({ users: state.users.filter((stateUser: User) => stateUser.id !== id) }));
@@ -57,9 +64,29 @@ export const UsersStore = signalStore(
       loadUsers: rxMethod<User[]>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
-          switchMap(() => usersRequestsService.get()),
+          //todo need to refactor
+          switchMap(() => usersRequestsService.getAllUsers()),
           tapResponse({
-            next: (users: User[]) => patchState(store, { users }),
+            next: (response: HttpResponse<User[]>) => {
+              const totalCount: number = Number(response.headers.get(PAGINATION_TOTAL_ITEMS_KEY));
+              patchState(store, { users: response.body, customersCount: totalCount });
+            },
+            error: console.error,
+            finalize: () => patchState(store, { isLoading: false }),
+          }),
+          switchMap(() => navigationService.queryParams$),
+          filter((queryParams: Params) => !isNil(queryParams['pageSize']) && !isNil(queryParams['pageIndex'])),
+          switchMap(({ pageSize, pageIndex }: Params) =>
+            usersRequestsService.getUsers({
+              pageIndex,
+              pageSize,
+            })
+          ),
+          tapResponse({
+            next: (response: HttpResponse<User[]>) => {
+              const totalCount: number = Number(response.headers.get(PAGINATION_TOTAL_ITEMS_KEY));
+              patchState(store, { users: response.body, customersCount: totalCount });
+            },
             error: console.error,
             finalize: () => patchState(store, { isLoading: false }),
           })

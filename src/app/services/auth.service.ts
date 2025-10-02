@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from '@app/declarations/interfaces/user.interface';
 import { isNil } from '@app/functions/is-nil.function';
 import { UserRoles } from '@app/declarations/enums/user-roles.enum';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ export class AuthService {
   constructor(private readonly router: Router) {}
 
   public login(username: string, password: string): void {
+    //todo need to refactor
+    this.usersStore.loadUsers(of([]));
     const user: User = this.usersStore.getUserByCredentials(username, password);
     const isUserAdmin: boolean = this.adminUsers().some(
       (admin: User) => admin.username === username && admin.password === password

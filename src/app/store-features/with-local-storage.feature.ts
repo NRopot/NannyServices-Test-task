@@ -1,4 +1,4 @@
-import { signalStoreFeature, type, withMethods, patchState, getState } from '@ngrx/signals';
+import { getState, patchState, signalStoreFeature, type, withMethods } from '@ngrx/signals';
 import { effect } from '@angular/core';
 import { isNil } from '@app/functions/is-nil.function';
 

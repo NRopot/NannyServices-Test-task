@@ -75,13 +75,12 @@ export class CustomersPageComponent {
   private readonly bottomSheet: MatBottomSheet = inject(MatBottomSheet);
 
   public readonly tableConfig: Signal<TableConfig<User>> = computed(() => ({
-    dataSource: this.paginationServiceService.getItemsWithPagination(this.usersStore.customers()),
+    dataSource: this.usersStore.customers(),
     columns: DISPLAYED_COLUMNS,
-    totalCount: this.usersStore.customers().length,
+    totalCount: this.usersStore.customersCount(),
   }));
 
   constructor(
-    private readonly paginationServiceService: PaginationServiceService,
     private readonly customerServiceService: CustomerServiceService,
     private readonly injector: Injector
   ) {}
