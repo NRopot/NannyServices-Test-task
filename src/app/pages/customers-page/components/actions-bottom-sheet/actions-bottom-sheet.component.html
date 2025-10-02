@@ -1,0 +1,13 @@
+<mat-nav-list class="actions">
+  <button mat-list-item>
+    <mat-icon aria-hidden="false" fontIcon="edit" (click)="openDialog(data.user.id)"></mat-icon>
+  </button>
+  <button mat-list-item>
+    <mat-icon
+      class="icon"
+      aria-hidden="false"
+      fontIcon="visibility"
+      (click)="openDialog(data.user.id, true)"
+    ></mat-icon>
+  </button>
+</mat-nav-list>
