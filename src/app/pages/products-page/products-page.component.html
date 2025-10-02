@@ -1,12 +1,14 @@
-<app-button class="create-button-container" iconName="add" (click)="openDialog()">Create</app-button>
+<app-button *appHasAccess="[userRoles.Admin]" class="create-button-container" iconName="add" (click)="openDialog()">
+  Create
+</app-button>
 
 <app-table [tableConfig]="tableConfig()" [actionsTemplate]="actionsTemplate"></app-table>
 
 <ng-template #actionsTemplate let-product>
-  <button matMiniFab aria-label="Create order">
+  <button *appHasAccess="[userRoles.Customer]" matMiniFab aria-label="Create order">
     <mat-icon class="icon" aria-hidden="false" fontIcon="add" (click)="createOrder(product.id)"></mat-icon>
   </button>
-  <button matMiniFab aria-label="Edit product">
+  <button *appHasAccess="[userRoles.Admin]" matMiniFab aria-label="Edit product">
     <mat-icon aria-hidden="false" fontIcon="edit" (click)="openDialog(product.id)"></mat-icon>
   </button>
 </ng-template>

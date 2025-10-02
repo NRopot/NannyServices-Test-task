@@ -19,6 +19,9 @@ import { OrdersStore } from '@app/stores/orders.store';
 import { v4 } from 'uuid';
 import { OrderStatuses } from '@app/declarations/enums/order-statuses.enum';
 import { CurrentUserStore } from '@app/stores/current-user.store';
+import { HasAccessDirective } from '@app/directives/has-access.directive';
+import { UserRoles } from '@app/declarations/enums/user-roles.enum';
+import { ProductCountForOrderComponent } from '@app/pages/products-page/components/product-count-for-order/product-count-for-order.component';
 
 const DISPLAYED_COLUMNS: Column<Product>[] = [
   {
@@ -48,7 +51,7 @@ const DISPLAYED_COLUMNS: Column<Product>[] = [
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProductRequestsService, ProductsStore, PaginationServiceService],
-  imports: [CommonModule, MatIconModule, MatMiniFabButton, ButtonComponent, TableComponent],
+  imports: [CommonModule, MatIconModule, MatMiniFabButton, ButtonComponent, TableComponent, HasAccessDirective],
 })
 export class ProductsPageComponent {
   private readonly productsStore = inject(ProductsStore);
@@ -56,6 +59,8 @@ export class ProductsPageComponent {
   private readonly currentUserStore = inject(CurrentUserStore);
 
   private readonly dialog: Dialog = inject(Dialog);
+
+  public readonly userRoles: typeof UserRoles = UserRoles;
 
   public readonly tableConfig: Signal<TableConfig<Product>> = computed(() => ({
     dataSource: this.paginationServiceService.getItemsWithPagination(this.productsStore.products()),
@@ -71,17 +76,27 @@ export class ProductsPageComponent {
       .products()
       .find((product: Product) => product.id === productId);
 
-    this.ordersStore.addOrder({
-      id: v4(),
-      userId: this.currentUserStore.userId(),
-      userName: this.currentUserStore.username(),
-      productId: product?.id ?? null,
-      productName: product?.name ?? '',
-      count: 1,
-      price: product?.price ?? 0,
-      createdDate,
-      modifiedDate: createdDate,
-      status: OrderStatuses.Created,
+    const dialogRef: DialogRef<number | undefined> = this.dialog.open<number | undefined>(
+      ProductCountForOrderComponent,
+      {
+        width: '30rem',
+        data: 1,
+      }
+    );
+
+    dialogRef.closed.subscribe((count: number | undefined) => {
+      this.ordersStore.addOrder({
+        id: v4(),
+        userId: this.currentUserStore.userId(),
+        userName: this.currentUserStore.username(),
+        productId: product?.id ?? null,
+        productName: product?.name ?? '',
+        count,
+        price: product?.price ?? 0,
+        createdDate,
+        modifiedDate: createdDate,
+        status: OrderStatuses.Created,
+      });
     });
   }
 

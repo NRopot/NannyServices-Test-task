@@ -1,0 +1,14 @@
+<div class="creation-dialog" (keydown.enter)="closeDialog(countControl.getRawValue())">
+  <h3 class="creation-dialog__title">Create order</h3>
+  <form class="creation-dialog__form">
+    <mat-form-field>
+      <mat-label>Count</mat-label>
+      <input type="number" matInput [formControl]="countControl" placeholder="Count" />
+      <mat-error *ngIf="countControl.hasError('min')">Please type a positive number</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div class="creation-dialog__footer">
+  <button matButton="filled" (click)="closeDialog(countControl.getRawValue())">OK</button>
+  <button matButton="filled" (click)="closeDialog()">Cancel</button>
+</div>

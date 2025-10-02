@@ -7,10 +7,13 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { CurrentUserStore } from '@app/stores/current-user.store';
 import { AuthService } from '@app/services/auth.service';
+import { UserRoles } from '@app/declarations/enums/user-roles.enum';
+import { HasAccessDirective } from '@app/directives/has-access.directive';
 
 interface Route {
   route: string;
   label: string;
+  roles: UserRoles[];
 }
 
 @Component({
@@ -20,7 +23,7 @@ interface Route {
   standalone: true,
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, MatButton, CommonModule, MatIcon],
+  imports: [RouterLink, MatButton, CommonModule, MatIcon, HasAccessDirective],
 })
 export class HeaderComponent {
   private readonly currentUserStore = inject(CurrentUserStore);
@@ -31,14 +34,17 @@ export class HeaderComponent {
     {
       route: 'customers',
       label: 'Customers',
+      roles: [UserRoles.Admin],
     },
     {
       route: 'products',
       label: 'Products',
+      roles: [UserRoles.Customer, UserRoles.Admin],
     },
     {
       route: 'orders',
       label: 'Orders',
+      roles: [UserRoles.Customer, UserRoles.Admin],
     },
   ];
 

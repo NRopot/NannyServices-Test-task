@@ -1,8 +1,12 @@
-<app-table [tableConfig]="tableConfig()" [actionsTemplate]="actionsTemplate"></app-table>
-<app-table [tableConfig]="adminTableConfig()" [actionsTemplate]="actionsTemplate"></app-table>
+<app-table
+  *appHasAccess="[userRoles.Customer]"
+  [tableConfig]="tableConfig()"
+  [actionsTemplate]="actionsTemplate"
+></app-table>
+<app-table *appHasAccess="[userRoles.Admin]" [tableConfig]="adminTableConfig()"></app-table>
 
 <ng-template #actionsTemplate let-order>
-  <button matMiniFab aria-label="Delete order" *ngIf="order.status === orderStatuses.Created">
+  <button matMiniFab aria-label="Delete order" [disabled]="order.status !== orderStatuses.Created">
     <mat-icon aria-hidden="false" fontIcon="delete" (click)="deleteOrder(order.id)"></mat-icon>
   </button>
 </ng-template>

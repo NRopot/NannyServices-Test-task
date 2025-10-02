@@ -4,4 +4,5 @@ export enum ColumnTypes {
   Price = 'Price',
   Date = 'Date',
   Status = 'Status',
+  Count = 'Count',
 }

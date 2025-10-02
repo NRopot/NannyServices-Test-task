@@ -13,6 +13,8 @@ import { MatMiniFabButton } from '@angular/material/button';
 import { OrdersStore } from '@app/stores/orders.store';
 import { OrderStatuses } from '@app/declarations/enums/order-statuses.enum';
 import { CurrentUserStore } from '@app/stores/current-user.store';
+import { UserRoles } from '@app/declarations/enums/user-roles.enum';
+import { HasAccessDirective } from '@app/directives/has-access.directive';
 
 const DISPLAYED_COLUMNS: Column<Order>[] = [
   {
@@ -86,13 +88,22 @@ const ADMIN_DISPLAYED_COLUMNS: Column<Order>[] = [
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [PaginationServiceService],
-  imports: [CommonModule, MatTableModule, MatIconModule, MatPaginatorModule, TableComponent, MatMiniFabButton],
+  imports: [
+    HasAccessDirective,
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule,
+    TableComponent,
+    MatMiniFabButton,
+  ],
 })
 export class OrdersPageComponent {
   private readonly ordersStore = inject(OrdersStore);
   private readonly currentUserStore = inject(CurrentUserStore);
 
   public readonly orderStatuses: typeof OrderStatuses = OrderStatuses;
+  public readonly userRoles: typeof UserRoles = UserRoles;
 
   private readonly ordersByUserId: Signal<Order[]> = computed(() =>
     this.ordersStore.orders().filter((order: Order) => order.userId === this.currentUserStore.userId())
@@ -101,7 +112,7 @@ export class OrdersPageComponent {
   public readonly tableConfig: Signal<TableConfig<Order>> = computed(() => ({
     dataSource: this.paginationServiceService.getItemsWithPagination(this.ordersByUserId()),
     columns: DISPLAYED_COLUMNS,
-    totalCount: this.ordersStore.ordersCount(),
+    totalCount: this.ordersByUserId().length,
   }));
 
   public readonly adminTableConfig: Signal<TableConfig<Order>> = computed(() => ({
