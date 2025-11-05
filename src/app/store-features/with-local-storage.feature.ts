@@ -1,22 +1,34 @@
 import { signalStoreFeature, type, withMethods, patchState, getState } from '@ngrx/signals';
-import { effect } from '@angular/core';
+import { effect, inject, PLATFORM_ID } from '@angular/core';
 import { isNil } from '@app/functions/is-nil.function';
+import { isPlatformBrowser } from '@angular/common';
 
 export function withLocalStorage<T extends object>(key: string) {
   return signalStoreFeature(
     { state: type<T>() },
     withMethods((store) => {
+      const platformId: any = inject(PLATFORM_ID);
+
+      let localStorageRef: Storage | undefined;
+      const isBrowser = isPlatformBrowser(platformId);
+
+      if (!isBrowser) {
+        return {};
+      }
+
+      localStorageRef = localStorage;
+
       effect(() => {
         try {
           const state: T = getState(store);
 
-          localStorage.setItem(key, JSON.stringify(state));
+          localStorageRef.setItem(key, JSON.stringify(state));
         } catch (error) {
           console.error(error);
         }
       });
 
-      const savedState: string | null = localStorage.getItem(key);
+      const savedState: string | null = localStorageRef.getItem(key);
 
       if (!isNil(savedState)) {
         try {
@@ -32,11 +44,11 @@ export function withLocalStorage<T extends object>(key: string) {
         saveToStorage(): void {
           const state: T = getState(store);
 
-          localStorage.setItem(key, JSON.stringify(state));
+          localStorageRef.setItem(key, JSON.stringify(state));
         },
 
         clearStorage(): void {
-          localStorage.removeItem(key);
+          localStorageRef.removeItem(key);
         },
       };
     })
